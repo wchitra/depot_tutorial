@@ -54,12 +54,21 @@ class ProductTest < ActiveSupport::TestCase
     end
   end
 
-  test "product si not valid without a unique title" do
+  test "product is not valid without a unique title" do
     product = Product.new(:title => products(:ruby).title,
                           :description => "yyy",
                           :price => 1,
                           :image_url => "fred.gif")
     assert !product.save
     assert_equal "has already been taken", product.errors[:title].join("; ")
+  end
+
+  test "title length" do
+    product = new_product("zzz.jpg")
+    product.title = '1234'
+    assert product.invalid?
+
+    product.title = "More than 10 characters long"
+    assert product.valid?
   end
 end
