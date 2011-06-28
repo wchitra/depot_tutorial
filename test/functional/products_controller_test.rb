@@ -52,4 +52,13 @@ class ProductsControllerTest < ActionController::TestCase
 
     assert_redirected_to products_path
   end
+
+  test "should get product page" do
+    get :index
+    assert_response :success
+    assert_select '#columns #side a', :minimum => 4
+    assert_select '#main #product_list', 1
+    assert_select '.list_line_odd', :minimum => 2
+    assert_select '.list_actions a', :minimum => 3
+  end
 end
